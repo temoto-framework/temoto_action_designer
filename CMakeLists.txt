@@ -1,9 +1,8 @@
 cmake_minimum_required(VERSION 2.8.12)
 project(temoto_action_designer)
 
-add_compile_options(-std=c++11)
-
-add_subdirectory(temoto_action_engine/temoto_action_engine)
+add_compile_options(-std=c++17)
+find_package(temoto_action_engine REQUIRED)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -11,13 +10,14 @@ set(CMAKE_AUTOUIC ON)
 
 find_package(Qt5Widgets REQUIRED)
 
+add_subdirectory(nodeeditor)
+
 include_directories(
   include
-  temoto_action_engine/temoto_action_engine/include
 )
 
 add_executable(${PROJECT_NAME} 
-  src/action_assistant_main.cpp
+  src/action_designer_main.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}
@@ -25,4 +25,15 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 qt5_use_modules(${PROJECT_NAME} Widgets)
+
+add_executable(nodeeditor_test 
+  nodeeditor/examples/connection_colors/main.cpp
+  nodeeditor/examples/connection_colors/models.hpp
+  nodeeditor/examples/connection_colors/models.cpp
+)
+
+target_link_libraries(nodeeditor_test
+  QtNodes
+)
+
 

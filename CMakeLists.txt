@@ -26,10 +26,12 @@ target_link_libraries(${PROJECT_NAME}
 
 qt5_use_modules(${PROJECT_NAME} Widgets)
 
-add_executable(nodeeditor_test 
-  nodeeditor/examples/connection_colors/main.cpp
-  nodeeditor/examples/connection_colors/models.hpp
-  nodeeditor/examples/connection_colors/models.cpp
+file(GLOB_RECURSE CPPS ./src/node_editor_examples/*.cpp )
+file(GLOB_RECURSE HPPS ./src/node_editor_examples/*.hpp )
+
+add_executable(nodeeditor_test
+  ${HPPS}
+  ${CPPS}
 )
 
 target_link_libraries(nodeeditor_test

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.12)
 project(temoto_action_designer)
 
-add_compile_options(-std=c++17)
+add_compile_options(-std=c++17 -g)
 find_package(temoto_action_engine REQUIRED)
 
 set(CMAKE_AUTOMOC ON)

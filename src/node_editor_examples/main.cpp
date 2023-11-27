@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
     DataFlowGraphModel dataFlowGraphModel(registry);
 
     DataFlowGraphicsScene scene(dataFlowGraphModel);
+    
 
     GraphicsView view(&scene);
 

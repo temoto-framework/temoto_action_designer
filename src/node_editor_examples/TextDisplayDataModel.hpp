@@ -32,6 +32,8 @@ public:
 
     bool captionVisible() const override { return true; }
 
+    bool resizable() const override { return true; }
+
     static QString Name() { return QString("TextDisplayDataModel"); }
 
     QString name() const override { return TextDisplayDataModel::Name(); }
@@ -47,8 +49,15 @@ public:
 
     QWidget *embeddedWidget() override { return _label; }
 
+public:
+    void inputConnectionCreated(QtNodes::ConnectionId const &ci) override;
+
+    void inputConnectionDeleted(QtNodes::ConnectionId const &ci) override;
+
 private:
     QLabel *_label;
     QString _inputText;
     std::string name_;
+
+    std::map<PortIndex, std::string> input_connections_;
 };

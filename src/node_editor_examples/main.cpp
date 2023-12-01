@@ -6,7 +6,7 @@
 
 #include <QtWidgets/QApplication>
 
-#include "TextDisplayDataModel.hpp"
+#include "umrf_node_model.hpp"
 // #include "TextSourceDataModel.hpp"
 
 using QtNodes::DataFlowGraphicsScene;
@@ -17,10 +17,7 @@ using QtNodes::NodeDelegateModelRegistry;
 static std::shared_ptr<NodeDelegateModelRegistry> registerDataModels()
 {
     auto ret = std::make_shared<NodeDelegateModelRegistry>();
-
-    // ret->registerModel<TextSourceDataModel>();
-    ret->registerModel<TextDisplayDataModel>();
-
+    ret->registerModel<UmrfNodeModel>();
     return ret;
 }
 
@@ -32,8 +29,6 @@ int main(int argc, char *argv[])
     DataFlowGraphModel dataFlowGraphModel(registry);
 
     DataFlowGraphicsScene scene(dataFlowGraphModel);
-    
-
     GraphicsView view(&scene);
 
     view.setWindowTitle("Node-based flow editor");

@@ -1,15 +1,15 @@
-#include "TextDisplayDataModel.hpp"
+#include "umrf_node_model.hpp"
 #include "counter.hpp"
 
-TextDisplayDataModel::TextDisplayDataModel()
-: _label(new QLabel("Resulting Text"))
-, name_{"Action_" + std::to_string(global::count++)}
+UmrfNodeModel::UmrfNodeModel()
+: name_{"Action_" + std::to_string(global::count++)}
 {
-    _label->setMargin(3);
+    condition_edit_widget_ = new ConditionEditWidget(name_);
+    // _label->setMargin(3);
     // _label->sizePolicy().verticalPolicy().
 }
 
-unsigned int TextDisplayDataModel::nPorts(PortType portType) const
+unsigned int UmrfNodeModel::nPorts(PortType portType) const
 {
     unsigned int result = 1;
 
@@ -29,7 +29,7 @@ unsigned int TextDisplayDataModel::nPorts(PortType portType) const
     return result;
 }
 
-NodeDataType TextDisplayDataModel::dataType(PortType portType, PortIndex portIndex) const
+NodeDataType UmrfNodeModel::dataType(PortType portType, PortIndex portIndex) const
 {
     NodeDataType ndt;
 
@@ -57,33 +57,33 @@ NodeDataType TextDisplayDataModel::dataType(PortType portType, PortIndex portInd
     return ndt;
 }
 
-std::shared_ptr<NodeData> TextDisplayDataModel::outData(PortIndex)
+std::shared_ptr<NodeData> UmrfNodeModel::outData(PortIndex)
 {
     return std::make_shared<TextData>(name_.c_str());
 }
 
-void TextDisplayDataModel::setInData(std::shared_ptr<NodeData> data, PortIndex const portIndex)
+void UmrfNodeModel::setInData(std::shared_ptr<NodeData> data, PortIndex const portIndex)
 {
     auto textData = std::dynamic_pointer_cast<TextData>(data);
 
     if (!textData) 
     {
-        _label->setText("");
+        condition_edit_widget_->setName("");
     }
     else
     {
-        _label->setText(textData->text());
+        condition_edit_widget_->setName(textData->text().toStdString());
         input_connections_[portIndex] = textData->text().toStdString();
     }
 
-    _label->adjustSize();
+    // _label->adjustSize();
 }
 
-void TextDisplayDataModel::inputConnectionCreated(QtNodes::ConnectionId const &ci)
+void UmrfNodeModel::inputConnectionCreated(QtNodes::ConnectionId const &ci)
 {
 }
 
-void TextDisplayDataModel::inputConnectionDeleted(QtNodes::ConnectionId const &ci)
+void UmrfNodeModel::inputConnectionDeleted(QtNodes::ConnectionId const &ci)
 {
     input_connections_.erase(ci.inPortIndex);
 }

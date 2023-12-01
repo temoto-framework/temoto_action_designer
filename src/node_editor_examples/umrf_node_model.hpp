@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TextData.hpp"
+#include "condition_edit_widget.hpp"
 
 #include <QtNodes/NodeDelegateModel>
 
@@ -16,16 +17,14 @@ using QtNodes::NodeDelegateModel;
 using QtNodes::PortIndex;
 using QtNodes::PortType;
 
-/// The model dictates the number of inputs and outputs for the Node.
-/// In this example it has no logic.
-class TextDisplayDataModel : public NodeDelegateModel
+class UmrfNodeModel : public NodeDelegateModel
 {
     Q_OBJECT
 
 public:
-    TextDisplayDataModel();
+    UmrfNodeModel();
 
-    virtual ~TextDisplayDataModel() {}
+    virtual ~UmrfNodeModel() {}
 
 public:
     QString caption() const override { return QString(name_.c_str()); }
@@ -34,9 +33,9 @@ public:
 
     bool resizable() const override { return true; }
 
-    static QString Name() { return QString("TextDisplayDataModel"); }
+    static QString Name() { return QString("UmrfNodeModel"); }
 
-    QString name() const override { return TextDisplayDataModel::Name(); }
+    QString name() const override { return UmrfNodeModel::Name(); }
 
 public:
     unsigned int nPorts(PortType portType) const override;
@@ -47,7 +46,7 @@ public:
 
     void setInData(std::shared_ptr<NodeData> data, PortIndex const portIndex) override;
 
-    QWidget *embeddedWidget() override { return _label; }
+    QWidget *embeddedWidget() override { return condition_edit_widget_; }
 
 public:
     void inputConnectionCreated(QtNodes::ConnectionId const &ci) override;
@@ -55,7 +54,7 @@ public:
     void inputConnectionDeleted(QtNodes::ConnectionId const &ci) override;
 
 private:
-    QLabel *_label;
+    ConditionEditWidget* condition_edit_widget_;
     QString _inputText;
     std::string name_;
 

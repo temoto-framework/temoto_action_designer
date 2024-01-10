@@ -1,12 +1,11 @@
 #include "umrf_node_model.hpp"
 #include "counter.hpp"
+#include <QtNodes/ConnectionIdUtils>
 
 UmrfNodeModel::UmrfNodeModel()
 : name_{"Action_" + std::to_string(global::count++)}
 {
     condition_edit_widget_ = new ConditionEditWidget(name_);
-    // _label->setMargin(3);
-    // _label->sizePolicy().verticalPolicy().
 }
 
 unsigned int UmrfNodeModel::nPorts(PortType portType) const
@@ -35,7 +34,7 @@ NodeDataType UmrfNodeModel::dataType(PortType portType, PortIndex portIndex) con
 
     switch (portType) {
     case PortType::In:
-        if (input_connections_.find(portIndex) == input_connections_.end())
+        if (portIndex >= input_connections_.size())
         {
             ndt = NodeDataType{"text", "IN"};
             break;
@@ -73,10 +72,13 @@ void UmrfNodeModel::setInData(std::shared_ptr<NodeData> data, PortIndex const po
     else
     {
         condition_edit_widget_->setName(textData->text().toStdString());
-        input_connections_[portIndex] = textData->text().toStdString();
-    }
+        if (portIndex > input_connections_.size())
+        {
+            return;
+        }
 
-    // _label->adjustSize();
+        input_connections_.push_back(textData->text().toStdString());
+    }
 }
 
 void UmrfNodeModel::inputConnectionCreated(QtNodes::ConnectionId const &ci)
@@ -85,5 +87,8 @@ void UmrfNodeModel::inputConnectionCreated(QtNodes::ConnectionId const &ci)
 
 void UmrfNodeModel::inputConnectionDeleted(QtNodes::ConnectionId const &ci)
 {
-    input_connections_.erase(ci.inPortIndex);
+    std::cout << ci.inPortIndex << std::endl;
+    portsAboutToBeDeleted(PortType::In, ci.inPortIndex, ci.inPortIndex);
+    input_connections_.erase(input_connections_.begin() + ci.inPortIndex);
+    portsDeleted();
 }

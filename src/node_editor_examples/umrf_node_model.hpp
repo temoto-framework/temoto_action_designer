@@ -31,7 +31,7 @@ public:
 
     bool captionVisible() const override { return true; }
 
-    bool resizable() const override { return true; }
+    bool resizable() const override { return false; }
 
     static QString Name() { return QString("UmrfNodeModel"); }
 
@@ -58,5 +58,5 @@ private:
     QString _inputText;
     std::string name_;
 
-    std::map<PortIndex, std::string> input_connections_;
+    std::vector<std::string> input_connections_;
 };

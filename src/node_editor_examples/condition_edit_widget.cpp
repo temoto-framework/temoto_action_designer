@@ -6,35 +6,35 @@
 ConditionEditWidget::ConditionEditWidget(const std::string parent_name, QWidget* parent)
 : QWidget(parent)
 {
-    setSizePolicy(QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Minimum);
+    // setSizePolicy(QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Minimum);
 
     QVBoxLayout *vl = new QVBoxLayout(this);
     vl->setAlignment(Qt::AlignTop);
     vl->setContentsMargins(0, 0, 0, 0);
     vl->setSpacing(0);
-    // vl->addStretch();
+    // // vl->addStretch();
 
-    name_label_ = new QLabel(parent_name.c_str());
-    vl->addWidget(name_label_);
+    // name_label_ = new QLabel(parent_name.c_str());
+    // vl->addWidget(name_label_);
 
-    QHBoxLayout* hl_on_true = new QHBoxLayout();
-    QLabel* label_on_true = new QLabel("on 'true': ");
-    hl_on_true->addWidget(label_on_true);
-    vl->addLayout(hl_on_true);
+    // QHBoxLayout* hl_on_true = new QHBoxLayout();
+    // QLabel* label_on_true = new QLabel("on 'true': ");
+    // hl_on_true->addWidget(label_on_true);
+    // vl->addLayout(hl_on_true);
 
-    QHBoxLayout* hl_on_false = new QHBoxLayout();
-    QLabel* label_on_false = new QLabel("on 'false': ");
-    hl_on_false->addWidget(label_on_false);
-    vl->addLayout(hl_on_false);
+    // QHBoxLayout* hl_on_false = new QHBoxLayout();
+    // QLabel* label_on_false = new QLabel("on 'false': ");
+    // hl_on_false->addWidget(label_on_false);
+    // vl->addLayout(hl_on_false);
 
-    QHBoxLayout* hl_on_error = new QHBoxLayout();
-    QLabel* label_on_error = new QLabel("on 'error': ");
-    hl_on_error->addWidget(label_on_error);
-    vl->addLayout(hl_on_error);
+    // QHBoxLayout* hl_on_error = new QHBoxLayout();
+    // QLabel* label_on_error = new QLabel("on 'error': ");
+    // hl_on_error->addWidget(label_on_error);
+    // vl->addLayout(hl_on_error);
 
-    // vl->addLayout(_left);
-    // vl->addSpacing(50);
-    // vl->addLayout(_right);
+    // // vl->addLayout(_left);
+    // // vl->addSpacing(50);
+    // // vl->addLayout(_right);
 }
 
 ConditionEditWidget::~ConditionEditWidget()
@@ -44,8 +44,8 @@ ConditionEditWidget::~ConditionEditWidget()
 
 void ConditionEditWidget::setName(const std::string& name)
 {
-    name_label_->setText(name.c_str());
-    name_label_->adjustSize();
+    // name_label_->setText(name.c_str());
+    // name_label_->adjustSize();
 }
 
 // void ConditionEditWidget::populateButtons(PortType portType, unsigned int nPorts)

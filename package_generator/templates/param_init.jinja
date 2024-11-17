@@ -1,0 +1,15 @@
+#include "input_parameters.hpp"
+#include <iostream>
+
+int main() {
+    const auto& params{getUmrfNodeConst().get{{ interface_direction }}Parameters()};
+    input_parameters_t ip;
+
+    // Initialize fields
+    {% for line_l, line_r in lines -%}
+    ip.{{ line_l }} = params.getParameterData<{{ line_r["cpp_type"] }}>("{{ line_r["param_key"] }}");
+    {% endfor %}
+    // Example output (you can modify this as needed)
+    std::cout << "Initialization complete!" << std::endl;
+    return 0;
+}

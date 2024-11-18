@@ -1,0 +1,53 @@
+#include <class_loader/class_loader.hpp>
+#include "{{ action_package_name }}/temoto_action.hpp"
+
+class {{ action_class_name }} : public TemotoAction
+{
+public:
+
+{{ action_class_name }}() // REQUIRED
+{
+}
+
+void onInit()
+{
+  TEMOTO_PRINT_OF("Initializing", getName());
+}
+
+bool onRun() // REQUIRED
+{
+  TEMOTO_PRINT_OF("Running", getName());
+
+  /*
+   * Implement your code here
+   * 
+   * Access input parameters via "params_in" member
+   * Set output parameters via "params_out" member
+   */
+
+  return true;
+}
+
+void onPause()
+{
+  TEMOTO_PRINT_OF("Pausing", getName());
+}
+
+void onContinue()
+{
+  TEMOTO_PRINT_OF("Continuing", getName());
+}
+
+void onStop()
+{
+  TEMOTO_PRINT_OF("Stopping", getName());
+}
+
+~{{ action_class_name }}()
+{
+}
+
+}; // {{ action_class_name }} class
+
+/* REQUIRED BY CLASS LOADER */
+CLASS_LOADER_REGISTER_CLASS({{ action_class_name }}, ActionBase);

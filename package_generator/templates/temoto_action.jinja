@@ -4,8 +4,8 @@
 #include "temoto_action_engine/temoto_error.h"
 #include "temoto_action_engine/messaging.h"
 
-#include "TODO/input_parameters.hpp"
-#include "TODO/output_parameters.hpp"
+#include "{{ action_name }}/input_parameters.hpp"
+#include "{{ action_name }}/output_parameters.hpp"
 
 /**
  * @brief Class that integrates TeMoto Base Subsystem specific and Action Engine specific codebases.
@@ -14,6 +14,7 @@
 class TemotoAction : public ActionBase
 {
 public:
+
   TemotoAction()
   {}
 
@@ -31,15 +32,6 @@ public:
   {
   }
 
-  virtual void onRun() = 0;
-
-  bool onRunInternal()
-  {
-    getInputParameters();
-    onRun();
-    setOutputParameters();
-  }
-
   input_parameters_t params_in;
   output_parameters_t params_out;
 
@@ -47,21 +39,23 @@ private:
 
   void getInputParameters()
   {
+    {% if gen_input_params %}
     const auto& params{getUmrfNodeConst().getInputParameters()};
 
-    // Initialize fields
-    {% for line_l, line_r in lines -%}
-    params_in.{{ line_l }} = params.getParameterData<{{ line_r["cpp_type"] }}>("{{ line_r["param_key"] }}");
+    {% for gen_param in gen_input_params -%}
+    params_in.{{ gen_param["cpp_access"] }} = params.getParameterData<{{ gen_param["cpp_type"] }}>("{{ gen_param["name"] }}");
     {% endfor %}
+    {% endif %}
   }
 
   void setOutputParameters()
   {
-    const auto& params{getUmrfNode().getOutputParametersNc()};
+    {% if gen_output_params %}
+    auto& params{getUmrfNode().getOutputParametersNc()};
 
-    // Initialize fields
-    {% for line_l, line_r in lines -%}
-    params.setParameter()
+    {% for gen_param in gen_output_params -%}
+    params.setParameter("{{ gen_param["name"] }}", "{{ gen_param["type"] }}", boost::any(params_out.{{ gen_param["cpp_access"] }}));
     {% endfor %}
+    {% endif %}
   }
 };

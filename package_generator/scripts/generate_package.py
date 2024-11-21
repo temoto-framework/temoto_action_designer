@@ -59,8 +59,8 @@ def generate_get_input_param(json_data):
         * cpp_type: C++ data type, e.g, "double"
         * name: Full name of the parameter, e.g., "pose::position::x"
 
-        For example: ({"cpp_access": "pose.position.x", 
-                       "cpp_type":   "double", 
+        For example: ({"cpp_access": "pose.position.x",
+                       "cpp_type":   "double",
                        "name":  "pose::position::x"})
     '''
     lines = []
@@ -80,7 +80,7 @@ def generate_get_input_param(json_data):
                 cpp_type = TYPE_MAPPING.get(value["pvf_type"])
                 pvf_name = cpp_access.replace(".", "::")
                 lines.append({"cpp_access": cpp_access, "cpp_type": cpp_type, "name": pvf_name})
-            
+
     process_object(json_data)
     return lines
 
@@ -92,8 +92,8 @@ def generate_set_output_param(json_data):
         * type: Data type outlined in the UMRF JSON, e.g., "number"
         * name: Full name of the parameter, e.g., "pose::position::x"
 
-        For example: ({"cpp_access": "pose.position.x", 
-                       "type":       "number", 
+        For example: ({"cpp_access": "pose.position.x",
+                       "type":       "number",
                        "name":       "pose::position::x"})
     '''
     lines = []
@@ -113,7 +113,7 @@ def generate_set_output_param(json_data):
                 pvf_name = cpp_access.replace(".", "::")
                 pvf_type = value["pvf_type"]
                 lines.append({"cpp_access": cpp_access, "type": pvf_type, "name": pvf_name})
-            
+
     process_object(json_data)
     return lines
 
@@ -123,10 +123,10 @@ def main():
     parser = argparse.ArgumentParser(description="Action package generator.")
 
     # Add arguments
-    parser.add_argument("--umrf-json", type=str, help="Path to UMRF JSON.")
-    parser.add_argument("--templates", type=str, help="Path to jinja templates.")
-    parser.add_argument("--output", type=str, help="Path to generated output files.")
-    parser.add_argument("--framework", type=str, help="CMake or ROS2 project.")
+    parser.add_argument("--umrf-json", type=str, required=True, help="Path to UMRF JSON.")
+    parser.add_argument("--templates", type=str, required=True, help="Path to jinja templates.")
+    parser.add_argument("--output",    type=str, required=True, help="Path to generated output files.")
+    parser.add_argument("--framework", type=str, required=True, help="CMake or ROS2 project.")
 
     # Parse the arguments
     args = parser.parse_args()
@@ -159,7 +159,7 @@ def main():
     # Load jinja templates
     #
     templateLoader = jinja2.FileSystemLoader(searchpath=args.templates)
-    templateEnv = jinja2.Environment(loader=templateLoader)
+    templateEnv = jinja2.Environment(loader=templateLoader, trim_blocks=True, lstrip_blocks=True)
 
     template_structs            = templateEnv.get_template('param_structs.jinja')
     template_temoto_action      = templateEnv.get_template('temoto_action.jinja')
@@ -242,9 +242,6 @@ def main():
 
         with open(os.path.join(gen_path_base, "package.xml"), "w") as f:
             f.write(render_packagexml)
-    
 
 if __name__ == "__main__":
     main()
-
-

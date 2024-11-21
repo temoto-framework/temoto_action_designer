@@ -2,9 +2,10 @@
 
 ## Obtain the source files
 
-Clone the repository recursively with the temoto\_action\_engine submodule. 
+Clone the repository recursively with the temoto\_action\_engine submodule.
 
 `git clone --recurse-submodules https://github.com/temoto-framework/temoto_action_designer.git`
+`pip3 install Jinja2`
 
 ## Build instructions
 

@@ -7,20 +7,12 @@ Clone the repository recursively with the temoto\_action\_engine submodule.
 `git clone --recurse-submodules https://github.com/temoto-framework/temoto_action_designer.git`
 `pip3 install Jinja2`
 
-## Build instructions
+## Create action package
 
-Create a directory for build files and navigate into it.
-
-`mkdir build && cd build`
-
-Generate build files using CMake.
-
-`cmake ..`
-
-Compile the Temoto Action Designer.
-
-`make`
-
-And run it.
-
-`./temoto_action_designer`
+```bash
+python package_generator/scripts/generate_package.py \
+--umrf-json <PATH_TO_UMRF_JSON> \
+--output <PATH_WHERE_THE_PACKAGE_IS_GENERATED> \
+--templates package_generator/templates/ \
+--framework <choose either 'CMake' or 'ROS2'>
+```
